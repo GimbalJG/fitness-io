@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#123d32" />
+  <meta name="description" content="Fitwell — toko perlengkapan kesehatan, suplemen, olahraga, kursus fitness, dan coach AI pribadi." />
+  <title>Fitwell — Better Every Day</title>
+  <style>
+    :root {
+      --green: #123d32;
+      --green-2: #1d5a48;
+      --lime: #d6f36a;
+      --cream: #f6f5ef;
+      --paper: #fffef9;
+      --ink: #19332b;
+      --muted: #728078;
+      --line: #e4e8df;
+      --orange: #ef8d57;
+      --shadow: 0 18px 50px rgba(21, 52, 42, .09);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--cream); }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .announcement { background: var(--green); color: white; text-align: center; padding: 10px 16px; font-size: 12px; letter-spacing: .04em; }
+    .announcement strong { color: var(--lime); }
+    header { background: rgba(255,254,249,.94); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; backdrop-filter: blur(12px); }
+    .nav { max-width: 1200px; margin: auto; height: 78px; padding: 0 24px; display: flex; align-items: center; gap: 30px; }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 160px; font-weight: 900; font-size: 23px; letter-spacing: -.07em; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; color: var(--green); background: var(--lime); font-size: 19px; letter-spacing: 0; }
+    .nav-links { display: flex; gap: 25px; align-items: center; font-size: 13px; color: #53645c; flex: 1; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn { width: 42px; height: 42px; border: 1px solid var(--line); background: white; border-radius: 50%; display: grid; place-items: center; color: var(--green); position: relative; }
+    .cart-count { position: absolute; top: -4px; right: -3px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 20px; background: var(--lime); color: var(--green); font-size: 10px; display: grid; place-items: center; font-weight: 900; }
+    .btn { border: 0; border-radius: 999px; padding: 13px 19px; font-weight: 750; font-size: 13px; transition: transform .18s, background .18s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-dark { background: var(--green); color: white; }
+    .btn-dark:hover { background: var(--green-2); }
+    .btn-lime { background: var(--lime); color: var(--green); }
+    .btn-light { border: 1px solid var(--line); background: white; color: var(--green); }
+    .btn-wide { width: 100%; }
+    .menu-toggle { display: none; }
+    main { overflow: hidden; }
+    .wrap { max-width: 1200px; margin: auto; padding-left: 24px; padding-right: 24px; }
+    .hero { padding-top: 34px; }
+    .hero-shell { background: var(--green); border-radius: 30px; min-height: 475px; position: relative; overflow: hidden; display: grid; grid-template-columns: 1.04fr .96fr; color: white; }
+    .hero-copy { padding: 64px 0 60px 62px; position: relative; z-index: 2; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid rgba(255,255,255,.2); border-radius: 30px; color: #e2f0d8; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    .eyebrow .dot { height: 7px; width: 7px; background: var(--lime); border-radius: 50%; }
+    h1 { font-size: clamp(44px, 5.2vw, 70px); line-height: .99; letter-spacing: -.065em; margin: 25px 0 20px; font-weight: 850; max-width: 560px; }
+    h1 em { color: var(--lime); font-style: normal; }
+    .hero-copy p { max-width: 420px; color: #d1ddd6; font-size: 15px; line-height: 1.75; margin: 0 0 28px; }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-note { display: flex; align-items: center; gap: 11px; margin-top: 34px; color: #d6e1da; font-size: 11px; }
+    .avatar-stack { display: flex; }
+    .avatar { margin-left: -7px; width: 28px; height: 28px; border: 2px solid var(--green); border-radius: 50%; background: #eeb69a; display: grid; place-items: center; font-size: 14px; }
+    .avatar:first-child { margin-left: 0; background: #e0c9ae; }
+    .avatar:nth-child(2) { background: #9fc4af; }
+    .avatar:nth-child(3) { background: #d8a68d; }
+    .hero-art { position: relative; min-height: 400px; overflow: hidden; }
+    .hero-orb { position: absolute; width: 370px; height: 370px; border-radius: 50%; background: #245d49; right: 20px; top: 45px; }
+    .hero-sun { position: absolute; width: 240px; height: 240px; border-radius: 50%; background: var(--lime); right: 70px; top: 80px; }
+    .hero-person { position: absolute; right: 105px; bottom: -8px; font-size: 235px; line-height: 1; filter: drop-shadow(0 15px 10px rgba(0,0,0,.13)); }
+    .float-card { position: absolute; padding: 15px 17px; color: var(--ink); background: white; border-radius: 17px; box-shadow: var(--shadow); z-index: 3; }
+    .float-card small { display: block; font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+    .float-card strong { font-size: 18px; }
+    .float-card .mini-tag { font-size: 10px; color: var(--green-2); background: #edf7da; padding: 4px 7px; border-radius: 8px; margin-left: 4px; }
+    .float-one { right: 22px; top: 45px; transform: rotate(4deg); }
+    .float-two { left: 2px; bottom: 65px; transform: rotate(-5deg); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 25px 0 64px; padding: 20px 8px; border-bottom: 1px solid var(--line); }
+    .stat { text-align: center; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: 0; }
+    .stat strong { display: block; font-size: 21px; letter-spacing: -.04em; }
+    .stat span { color: var(--muted); font-size: 11px; }
+    section { scroll-margin-top: 105px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+    .kicker { color: var(--green-2); text-transform: uppercase; letter-spacing: .14em; font-size: 10px; font-weight: 850; }
+    h2 { font-size: clamp(28px, 3vw, 39px); letter-spacing: -.06em; margin: 9px 0 0; line-height: 1.08; }
+    .section-sub { color: var(--muted); line-height: 1.6; font-size: 13px; max-width: 430px; margin: 8px 0 0; }
+    .categories { margin-bottom: 76px; }
+    .category-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; }
+    .category-card { border: 1px solid var(--line); background: var(--paper); text-align: left; padding: 20px; border-radius: 20px; min-height: 157px; transition: .2s; color: var(--ink); }
+    .category-card:hover, .category-card.active { border-color: #a6c780; background: #f0f7df; transform: translateY(-3px); }
+    .cat-icon { display: grid; place-items: center; width: 48px; height: 48px; background: #eef3e7; border-radius: 16px; font-size: 24px; margin-bottom: 17px; }
+    .category-card strong { display: block; font-size: 13px; margin-bottom: 5px; }
+    .category-card span:last-child { color: var(--muted); font-size: 11px; }
+    .products-section { padding: 60px 0 76px; background: #eeefe8; }
+    .toolbar { display: flex; align-items: center; gap: 12px; margin: 26px 0 23px; flex-wrap: wrap; }
+    .search-box { flex: 1; min-width: 210px; position: relative; }
+    .search-box input { width: 100%; height: 45px; border: 1px solid var(--line); background: white; border-radius: 13px; padding: 0 15px 0 42px; outline: none; color: var(--ink); }
+    .search-box input:focus { border-color: #89a878; box-shadow: 0 0 0 3px rgba(137,168,120,.13); }
+    .search-icon { position: absolute; top: 13px; left: 15px; color: var(--muted); }
+    .filter-select { height: 45px; background: white; border: 1px solid var(--line); padding: 0 13px; border-radius: 13px; color: var(--ink); outline: none; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .product-card { background: var(--paper); border: 1px solid #e7e8df; border-radius: 20px; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .product-visual { height: 190px; display: grid; place-items: center; position: relative; overflow: hidden; }
+    .product-visual:before { content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.48); right: -30px; bottom: -85px; }
+    .product-visual .emoji { font-size: 83px; filter: drop-shadow(0 12px 8px rgba(37,57,42,.13)); position: relative; transition: transform .25s; }
+    .product-card:hover .emoji { transform: scale(1.08) rotate(-3deg); }
+    .visual-green { background: #dfead1; } .visual-peach { background: #f4dfd2; } .visual-blue { background: #dce9e9; } .visual-yellow { background: #f0e8c7; } .visual-lilac { background: #e8e1f1; }
+    .product-badge { position: absolute; left: 12px; top: 12px; z-index: 1; border-radius: 30px; background: white; padding: 6px 9px; font-size: 9px; font-weight: 850; text-transform: uppercase; letter-spacing: .06em; }
+    .wish-btn { position: absolute; right: 12px; top: 12px; border: 0; height: 31px; width: 31px; background: rgba(255,255,255,.86); border-radius: 50%; color: var(--green); font-size: 16px; }
+    .wish-btn.saved { color: #d44c65; }
+    .product-info { padding: 17px; }
+    .product-type { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--green-2); font-weight: 850; }
+    .product-info h3 { font-size: 14px; letter-spacing: -.02em; margin: 7px 0 7px; line-height: 1.35; min-height: 38px; }
+    .rating { color: #d58f2b; font-size: 11px; margin-bottom: 12px; }
+    .rating span { color: var(--muted); margin-left: 4px; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .price { font-size: 15px; font-weight: 900; letter-spacing: -.04em; }
+    .old-price { display: block; color: #8d9990; text-decoration: line-through; font-weight: 500; font-size: 10px; margin-top: 3px; }
+    .add-btn { border: 0; width: 37px; height: 37px; border-radius: 50%; background: var(--green); color: white; font-size: 21px; display: grid; place-items: center; }
+    .add-btn:hover { background: var(--green-2); }
+    .empty-state { display: none; grid-column: 1/-1; text-align: center; padding: 45px; border: 1px dashed #bdc9b7; border-radius: 20px; color: var(--muted); }
+    .feature-section { padding: 76px 0; }
+    .feature-shell { background: #dfedcd; border-radius: 28px; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; overflow: hidden; }
+    .feature-copy h2 { max-width: 440px; }
+    .feature-copy p { max-width: 440px; color: #52675c; font-size: 14px; line-height: 1.8; margin: 15px 0 23px; }
+    .feature-points { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-bottom: 25px; }
+    .feature-point { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 650; }
+    .check { display: grid; place-items: center; width: 24px; height: 24px; background: white; color: var(--green); border-radius: 50%; font-size: 12px; flex-shrink: 0; }
+    .coach-preview { background: var(--paper); border: 1px solid rgba(18,61,50,.08); border-radius: 24px; padding: 22px; box-shadow: 0 25px 55px rgba(18,61,50,.10); max-width: 445px; justify-self: end; width: 100%; transform: rotate(1deg); }
+    .coach-top { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 15px; }
+    .bot-avatar { width: 43px; height: 43px; border-radius: 15px; background: var(--green); color: var(--lime); display: grid; place-items: center; font-size: 23px; }
+    .coach-top strong { display: block; font-size: 13px; }
+    .online { color: #54865b; font-size: 10px; margin-top: 4px; }
+    .chat-line { max-width: 87%; padding: 12px 14px; border-radius: 15px; font-size: 12px; line-height: 1.6; margin-top: 13px; }
+    .chat-line.bot { background: #f0f3eb; border-top-left-radius: 4px; }
+    .chat-line.user { background: var(--green); color: white; margin-left: auto; border-top-right-radius: 4px; }
+    .chat-prompt { padding: 11px 13px; background: #f7f7f1; border: 1px solid var(--line); border-radius: 13px; color: #7f8981; font-size: 11px; display: flex; justify-content: space-between; margin-top: 17px; }
+    .programs { padding: 0 0 78px; }
+    .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+    .program-card { position: relative; border-radius: 22px; overflow: hidden; background: var(--green); min-height: 270px; color: white; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
+    .program-card:nth-child(2) { background: #e4c7b4; color: var(--ink); }
+    .program-card:nth-child(3) { background: #dce9cf; color: var(--ink); }
+    .program-number { font-size: 10px; letter-spacing: .12em; opacity: .75; }
+    .program-emoji { position: absolute; right: 19px; top: 24px; font-size: 70px; opacity: .95; transform: rotate(8deg); }
+    .program-card h3 { font-size: 23px; letter-spacing: -.05em; line-height: 1.1; max-width: 240px; margin: auto 0 11px; position: relative; }
+    .program-card p { font-size: 12px; opacity: .78; max-width: 250px; line-height: 1.6; margin: 0 0 19px; position: relative; }
+    .program-card .btn { align-self: flex-start; background: rgba(255,255,255,.2); color: inherit; border: 1px solid rgba(255,255,255,.35); }
+    .program-card:nth-child(2) .btn, .program-card:nth-child(3) .btn { background: rgba(255,255,255,.55); border-color: rgba(25,51,43,.12); }
+    .newsletter { padding-bottom: 78px; }
+    .newsletter-shell { border: 1px solid var(--line); background: var(--paper); border-radius: 25px; padding: 32px 38px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+    .newsletter h2 { font-size: 25px; }
+    .newsletter p { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+    .newsletter-form { display: flex; gap: 8px; width: min(100%, 400px); }
+    .newsletter-form input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 999px; padding: 0 16px; height: 45px; outline: none; background: white; }
+    footer { background: #0f3028; color: white; padding: 44px 0 22px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 30px; padding-bottom: 38px; }
+    .footer-brand p { color: #afc0b6; max-width: 260px; line-height: 1.75; font-size: 12px; }
+    footer h4 { margin: 4px 0 15px; font-size: 12px; }
+    footer a, footer .foot-text { display: block; color: #afc0b6; font-size: 11px; margin: 11px 0; }
+    footer a:hover { color: var(--lime); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.13); padding-top: 18px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: #afc0b6; font-size: 10px; }
+    .disclaimer { font-size: 10px; line-height: 1.6; opacity: .78; max-width: 650px; }
+    /* Cart drawer & modal */
+    .overlay { position: fixed; inset: 0; background: rgba(7,24,18,.48); z-index: 50; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .overlay.show { opacity: 1; pointer-events: auto; }
+    .cart-drawer { position: fixed; z-index: 51; top: 0; right: 0; width: min(430px, 100%); height: 100dvh; background: var(--paper); padding: 25px; transform: translateX(105%); transition: transform .25s ease; display: flex; flex-direction: column; }
+    .cart-drawer.open { transform: translateX(0); }
+    .drawer-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .drawer-head h3 { margin: 0; font-size: 21px; letter-spacing: -.04em; }
+    .close-btn { border: 0; background: #eef1e9; color: var(--green); width: 35px; height: 35px; border-radius: 50%; font-size: 18px; }
+    .cart-items { overflow: auto; flex: 1; padding: 6px 0; }
+    .cart-row { display: grid; grid-template-columns: 62px 1fr auto; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .cart-thumb { display: grid; place-items: center; height: 62px; width: 62px; border-radius: 15px; font-size: 30px; background: #e8efdc; }
+    .cart-row strong { display: block; font-size: 12px; line-height: 1.4; }
+    .cart-row small { display: block; color: var(--muted); font-size: 11px; margin-top: 5px; }
+    .qty-controls { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .qty-controls button { border: 1px solid var(--line); background: white; border-radius: 7px; width: 24px; height: 24px; color: var(--green); }
+    .cart-row .remove { background: none; border: 0; color: #9b6d6d; font-size: 11px; margin-top: 4px; padding: 0; }
+    .cart-summary { padding-top: 18px; border-top: 1px solid var(--line); }
+    .summary-line { display: flex; justify-content: space-between; margin: 8px 0; font-size: 12px; color: var(--muted); }
+    .summary-line.total { color: var(--ink); font-size: 17px; font-weight: 900; margin: 15px 0 18px; }
+    .cart-empty { text-align: center; padding: 55px 20px; color: var(--muted); font-size: 13px; }
+    .modal-wrap { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; z-index: 60; background: rgba(7,24,18,.5); opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .modal-wrap.show { opacity: 1; pointer-events: auto; }
+    .modal { background: var(--paper); width: min(530px, 100%); max-height: 90dvh; overflow: auto; border-radius: 25px; padding: 28px; transform: translateY(8px); transition: transform .2s; }
+    .modal-wrap.show .modal { transform: translateY(0); }
+    .modal h3 { font-size: 24px; letter-spacing: -.05em; margin: 0 0 8px; }
+    .modal p { color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .modal-head { display: flex; justify-content: space-between; gap: 15px; align-items: start; }
+    .field { display: block; font-size: 11px; color: var(--muted); font-weight: 700; margin: 15px 0; }
+    .field input, .field select, .field textarea { display: block; width: 100%; margin-top: 7px; border: 1px solid var(--line); padding: 12px 13px; border-radius: 12px; outline: none; background: white; color: var(--ink); }
+    .field textarea { min-height: 75px; resize: vertical; }
+    .ai-answer { background: #eff5e6; padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.7; margin-top: 17px; display: none; white-space: pre-line; }
+    .toast { position: fixed; z-index: 100; bottom: 23px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: var(--green); color: white; border-radius: 999px; padding: 12px 18px; font-size: 12px; box-shadow: var(--shadow); transition: .25s; text-align: center; width: max-content; max-width: calc(100% - 30px); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 950px) {
+      .nav { gap: 15px; } .nav-links { gap: 14px; } .brand { min-width: auto; }
+      .hero-shell { grid-template-columns: 1fr .75fr; } .hero-copy { padding-left: 37px; } .hero-person { right: 35px; font-size: 200px; } .hero-orb { right: -15px; } .hero-sun { right: 30px; width: 205px; height: 205px; }
+      .category-grid { grid-template-columns: repeat(3, 1fr); } .product-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .feature-shell { padding: 30px; gap: 25px; } .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; } .footer-grid > div:last-child { display: none; }
+    }
+    @media (max-width: 680px) {
+      .announcement { font-size: 10px; } .nav { height: 66px; padding: 0 16px; justify-content: space-between; }
+      .menu-toggle { display: grid; } .nav-links { display: none; position: absolute; top: 66px; left: 0; width: 100%; padding: 15px 22px 22px; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: var(--shadow); flex-direction: column; align-items: flex-start; gap: 18px; }
+      .nav-links.open { display: flex; } .nav-actions .nav-cta { display: none; } .nav-actions { gap: 7px; }
+      .wrap { padding-left: 16px; padding-right: 16px; } .hero { padding-top: 17px; }
+      .hero-shell { display: block; min-height: auto; border-radius: 24px; } .hero-copy { padding: 36px 25px 22px; } h1 { font-size: clamp(43px, 12vw, 61px); margin-top: 21px; }
+      .hero-copy p { font-size: 13px; } .hero-art { min-height: 235px; } .hero-orb { width: 230px; height: 230px; right: calc(50% - 115px); top: 0; } .hero-sun { width: 155px; height: 155px; right: calc(50% - 80px); top: 22px; }
+      .hero-person { font-size: 150px; right: calc(50% - 87px); bottom: -6px; } .float-one { right: 13px; top: 18px; } .float-two { left: 12px; bottom: 21px; } .float-card { padding: 11px 12px; } .float-card strong { font-size: 14px; }
+      .stats { grid-template-columns: repeat(2,1fr); gap: 18px 0; margin: 18px 0 48px; } .stat:nth-child(2) { border-right: 0; } .stat:nth-child(3), .stat:nth-child(4) { padding-top: 15px; border-top: 1px solid var(--line); }
+      .section-head { align-items: flex-start; flex-direction: column; gap: 12px; } .categories { margin-bottom: 52px; } .category-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+      .category-card { padding: 15px; min-height: 140px; } .cat-icon { margin-bottom: 12px; }
+      .products-section { padding: 46px 0 52px; } .toolbar { gap: 8px; } .filter-select { flex: 1; min-width: 0; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; } .product-visual { height: 145px; } .product-visual .emoji { font-size: 65px; } .product-info { padding: 12px; } .product-info h3 { font-size: 12px; min-height: 34px; } .product-type { font-size: 8px; } .price { font-size: 13px; } .add-btn { width: 33px; height: 33px; }
+      .feature-section { padding: 52px 0; } .feature-shell { grid-template-columns: 1fr; padding: 25px 20px; gap: 27px; } .feature-copy p { font-size: 13px; } .feature-points { gap: 12px 6px; } .feature-point { font-size: 11px; } .coach-preview { justify-self: center; transform: none; }
+      .programs { padding-bottom: 55px; } .program-grid { grid-template-columns: 1fr; } .program-card { min-height: 235px; } .newsletter { padding-bottom: 50px; } .newsletter-shell { padding: 25px 20px; flex-direction: column; align-items: stretch; } .newsletter-form { width: 100%; } .newsletter-form .btn { padding: 12px 14px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 22px; } .footer-brand { grid-column: 1/-1; } .footer-grid > div:last-child { display: block; } .footer-bottom { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *:before, *:after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="announcement">GERAK LEBIH SEHAT, SETIAP HARI <strong>✦ Gratis ongkir min. Rp250.000</strong></div>
+  <header>
+    <nav class="nav" aria-label="Navigasi utama">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
+      <a class="brand" href="#home" aria-label="Fitwell beranda"><span class="brand-mark">✳</span> fitwell<span style="color:#8b9a88">.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#produk">Belanja</a><a href="#kategori">Kategori</a><a href="#program">Program Fitness</a><a href="#coach">Coach AI</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn" id="searchFocus" aria-label="Cari produk">⌕</button>
+        <button class="icon-btn" id="openCart" aria-label="Buka keranjang">♡<span class="cart-count" id="cartCount">0</span></button>
+        <a class="btn btn-dark nav-cta" href="#produk">Mulai Belanja ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home">
+    <div class="wrap hero">
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="dot"></span> WELLNESS, YOUR WAY</span>
+          <h1>Versi sehatmu.<br><em>Versi terbaikmu.</em></h1>
+          <p>Temukan perlengkapan kesehatan, suplemen, alat olahraga, dan panduan kebugaran untuk mendukung perjalanan sehatmu—satu langkah setiap hari.</p>
+          <div class="hero-ctas"><a class="btn btn-lime" href="#produk">Jelajahi Produk <span>↗</span></a><a class="btn" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2)" href="#coach">Kenali Coach AI</a></div>
+          <div class="hero-note"><div class="avatar-stack"><span class="avatar">😊</span><span class="avatar">🏃</span><span class="avatar">💪</span></div><span><strong style="color:white">Mulai dari langkah kecil.</strong><br>Bangun rutinitas yang terasa pas untukmu.</span></div>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi gaya hidup sehat">
+          <div class="hero-orb"></div><div class="hero-sun"></div><div class="hero-person">🏃🏻‍♂️</div>
+          <div class="float-card float-one"><small>DAILY MOVEMENT</small><strong>Move with joy</strong><span class="mini-tag">+1%</span></div>
+          <div class="float-card float-two"><small>YOUR WELLNESS KIT</small><strong>Ready, set, grow ✦</strong></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>4-in-1</strong><span>Tempat kebutuhan wellness</span></div>
+        <div class="stat"><strong>Dipilih untukmu</strong><span>Produk pilihan</span></div>
+        <div class="stat"><strong>Belajar</strong><span>Dengan kelas fitness</span></div>
+        <div class="stat"><strong>Personal</strong><span>Rencana bersama Coach AI</span></div>
+      </div>
+    </div>
+
+    <section class="wrap categories" id="kategori">
+      <div class="section-head"><div><span class="kicker">Shop by category</span><h2>Mulai dari kebutuhanmu.</h2></div><p class="section-sub">Satu tempat untuk mendukung kebiasaan sehatmu. Pilih kategori yang paling sesuai dengan tujuanmu.</p></div>
+      <div class="category-grid">
+        <button class="category-card" data-category="kesehatan"><span class="cat-icon">🩺</span><strong>Alat Kesehatan</strong><span>Pantau kondisi harian ↗</span></button>
+        <button class="category-card" data-category="suplemen"><span class="cat-icon">🧴</span><strong>Suplemen</strong><span>Dukungan nutrisi ↗</span></button>
+        <button class="category-card" data-category="olahraga"><span class="cat-icon">🏋️</span><strong>Alat Olahraga</strong><span>Bergerak lebih aktif ↗</span></button>
+        <button class="category-card" data-category="course"><span class="cat-icon">🎓</span><strong>Course Fitness</strong><span>Belajar dari rumah ↗</span></button>
+        <button class="category-card" data-category="coach"><span class="cat-icon">🤖</span><strong>Coach AI</strong><span>Rencana yang personal ↗</span></button>
+      </div>
+    </section>
+
+    <section class="products-section" id="produk">
+      <div class="wrap">
+        <div class="section-head"><div><span class="kicker">Curated for your wellness</span><h2>Favorit untuk rutinitasmu.</h2><p class="section-sub">Produk pilihan untuk menemani langkah kecil yang konsisten.</p></div><a class="btn btn-light" href="#kategori">Semua Kategori ↗</a></div>
+        <div class="toolbar">
+          <div class="search-box"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="Cari produk, mis. resistance band..." aria-label="Cari produk" /></div>
+          <select class="filter-select" id="categoryFilter" aria-label="Filter kategori"><option value="all">Semua kategori</option><option value="kesehatan">Alat kesehatan</option><option value="suplemen">Suplemen</option><option value="olahraga">Alat olahraga</option><option value="course">Course fitness</option></select>
+          <select class="filter-select" id="sortFilter" aria-label="Urutkan produk"><option value="popular">Paling populer</option><option value="low">Harga terendah</option><option value="high">Harga tertinggi</option></select>
+        </div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="feature-section" id="coach">
+      <div class="wrap">
+        <div class="feature-shell">
+          <div class="feature-copy"><span class="kicker">Your personal wellness buddy</span><h2>Rencana sehat yang terasa seperti milikmu.</h2><p>Kenalan dengan Coach AI Fitwell. Ceritakan tujuan, waktu luang, dan peralatan yang kamu punya. Dapatkan contoh rencana aktivitas awal yang bisa kamu sesuaikan secara bertahap.</p>
+            <div class="feature-points"><div class="feature-point"><span class="check">✓</span>Rencana aktivitas mingguan</div><div class="feature-point"><span class="check">✓</span>Rekomendasi sesuai alat</div><div class="feature-point"><span class="check">✓</span>Target bertahap</div><div class="feature-point"><span class="check">✓</span>Tips membangun konsistensi</div></div>
+            <button class="btn btn-dark" id="openCoach">Coba Coach AI Gratis ↗</button>
+          </div>
+          <div class="coach-preview">
+            <div class="coach-top"><div class="bot-avatar">✳</div><div><strong>Fitwell Coach</strong><div class="online">● Demo interaktif · siap membantu</div></div><span style="margin-left:auto;font-size:20px">✦</span></div>
+            <div class="chat-line bot">Hai! 🌱 Apa tujuan kebugaranmu saat ini? Kita mulai dengan langkah yang realistis, ya.</div>
+            <div class="chat-line user">Aku ingin lebih aktif di rumah.</div>
+            <div class="chat-line bot">Bagus! Kita bisa mulai dari jalan kaki ringan dan latihan mobilitas singkat. Pilih aktivitas yang nyaman, lalu tingkatkan perlahan.</div>
+            <div class="chat-prompt"><span>Tulis tujuanmu di Coach AI...</span><span>↗</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap programs" id="program">
+      <div class="section-head"><div><span class="kicker">Learn at your own pace</span><h2>Ilmu baru, gerak baru.</h2><p class="section-sub">Kelas digital untuk membangun fondasi gerak dan kebiasaan yang lebih baik.</p></div></div>
+      <div class="program-grid">
+        <article class="program-card"><span class="program-number">PROGRAM 01 · BEGINNER</span><span class="program-emoji">🧘</span><h3>Move Better Basics</h3><p>Kenali dasar mobilitas dan buat rutinitas gerak sederhana untuk pemula.</p><button class="btn" data-course="Move Better Basics">Lihat Kelas ↗</button></article>
+        <article class="program-card"><span class="program-number">PROGRAM 02 · AT HOME</span><span class="program-emoji">🏠</span><h3>Home Workout Starter</h3><p>Latihan tanpa alat yang bisa disesuaikan dengan ruang dan waktumu.</p><button class="btn" data-course="Home Workout Starter">Lihat Kelas ↗</button></article>
+        <article class="program-card"><span class="program-number">PROGRAM 03 · HABITS</span><span class="program-emoji">🌱</span><h3>Build Healthy Habits</h3><p>Belajar menetapkan target kecil, melacak progres, dan menjaga konsistensi.</p><button class="btn" data-course="Build Healthy Habits">Lihat Kelas ↗</button></article>
+      </div>
+    </section>
+
+    <section class="wrap newsletter">
+      <div class="newsletter-shell"><div><span class="kicker">A little note for your wellness</span><h2>Inspirasi sehat, langsung ke inbox.</h2><p>Tips rutinitas sehat, kabar produk, dan kelas terbaru dari Fitwell.</p></div><form class="newsletter-form" id="newsletterForm"><input type="email" placeholder="Alamat email kamu" required aria-label="Alamat email" /><button class="btn btn-dark" type="submit">Daftar ↗</button></form></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">✳</span> fitwell<span style="color:#8b9a88">.</span></a><p>Teman perjalananmu menuju gaya hidup yang lebih aktif, lebih sadar, dan lebih seimbang.</p></div>
+        <div><h4>Belanja</h4><a href="#produk">Alat Kesehatan</a><a href="#produk">Suplemen</a><a href="#produk">Alat Olahraga</a><a href="#program">Course Fitness</a></div>
+        <div><h4>Jelajahi</h4><a href="#coach">Coach AI</a><a href="#kategori">Kategori</a><a href="#program">Program Fitness</a><a href="#home">Tentang Fitwell</a></div>
+        <div><h4>Bantuan</h4><span class="foot-text">hello@fitwell.example</span><span class="foot-text">Senin–Jumat, 09.00–17.00</span><span class="foot-text">Instagram · TikTok · YouTube</span></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 Fitwell. Demo toko online.</span><span class="disclaimer">Informasi di situs ini bersifat umum dan edukatif. Produk kesehatan dan suplemen tidak dimaksudkan untuk mendiagnosis, mengobati, atau mencegah penyakit. Ikuti petunjuk produk dan konsultasikan dengan tenaga kesehatan bila diperlukan. Coach AI demo bukan pengganti dokter atau pelatih profesional.</span></div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Keranjang belanja" aria-hidden="true">
+    <div class="drawer-head"><h3>Keranjangmu <span style="color:var(--muted);font-size:13px" id="drawerItemCount">(0)</span></h3><button class="close-btn" id="closeCart" aria-label="Tutup keranjang">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-summary"><div class="summary-line"><span>Subtotal</span><strong id="subtotal">Rp0</strong></div><div class="summary-line"><span>Pengiriman</span><span id="shipping">Dihitung saat checkout</span></div><div class="summary-line total"><span>Total sementara</span><strong id="total">Rp0</strong></div><button class="btn btn-dark btn-wide" id="checkoutBtn">Lanjut Checkout ↗</button><p style="text-align:center;font-size:10px;color:var(--muted)">Checkout ini hanya simulasi demo.</p></div>
+  </aside>
+
+  <div class="modal-wrap" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal"><div class="modal-head"><div><h3 id="checkoutTitle">Checkout demo</h3><p>Isi data contoh untuk melihat ringkasan pesanan. Tidak ada pembayaran sungguhan.</p></div><button class="close-btn" data-close-modal="checkoutModal" aria-label="Tutup">×</button></div>
+      <form id="checkoutForm"><label class="field">Nama lengkap<input name="name" required placeholder="Nama kamu" /></label><label class="field">Email<input name="email" type="email" required placeholder="nama@email.com" /></label><label class="field">Alamat pengiriman<textarea name="address" required placeholder="Alamat lengkap"></textarea></label><label class="field">Metode pembayaran<select name="payment"><option>Transfer bank (simulasi)</option><option>QRIS (simulasi)</option><option>Bayar di tempat (simulasi)</option></select></label><div class="summary-line total"><span>Total pesanan</span><strong id="checkoutTotal">Rp0</strong></div><button class="btn btn-dark btn-wide" type="submit">Buat Pesanan Demo ✓</button></form>
+    </div>
+  </div>
+
+  <div class="modal-wrap" id="coachModal" role="dialog" aria-modal="true" aria-labelledby="coachTitle">
+    <div class="modal"><div class="modal-head"><div><span class="kicker">FITWELL COACH · DEMO</span><h3 id="coachTitle">Mulai dari tujuanmu.</h3><p>Jawab singkat beberapa pertanyaan untuk melihat contoh rencana aktivitas. Ini demo berbasis aturan, bukan model AI yang terhubung ke layanan eksternal.</p></div><button class="close-btn" data-close-modal="coachModal" aria-label="Tutup">×</button></div>
+      <form id="coachForm"><label class="field">Apa tujuan utamamu?<select name="goal" required><option value="aktif">Lebih aktif setiap hari</option><option value="strength">Membangun kekuatan</option><option value="stamina">Meningkatkan stamina</option><option value="flexibility">Fleksibilitas dan mobilitas</option></select></label><label class="field">Level aktivitas saat ini<select name="level" required><option value="beginner">Pemula / baru mulai</option><option value="some">Kadang berolahraga</option><option value="regular">Sudah rutin berolahraga</option></select></label><label class="field">Waktu yang tersedia per sesi<select name="time" required><option value="10">10–15 menit</option><option value="20">20–30 menit</option><option value="40">40 menit atau lebih</option></select></label><label class="field">Peralatan yang tersedia (opsional)<input name="equipment" placeholder="Contoh: matras, resistance band" /></label><button class="btn btn-dark btn-wide" type="submit">Buat Rencana Awal ↗</button></form>
+      <div class="ai-answer" id="coachAnswer" aria-live="polite"></div><p style="font-size:10px">Jaga intensitas tetap nyaman. Hentikan aktivitas jika merasa nyeri atau tidak enak badan. Bila punya kondisi medis atau ragu untuk berolahraga, konsultasikan dahulu kepada tenaga kesehatan.</p>
+    </div>
+  </div>
+  <div class="modal-wrap" id="courseModal" role="dialog" aria-modal="true" aria-labelledby="courseTitle"><div class="modal"><div class="modal-head"><div><span class="kicker">FITWELL LEARNING</span><h3 id="courseTitle">Nama kelas</h3><p id="courseDescription">Kelas digital demo.</p></div><button class="close-btn" data-close-modal="courseModal" aria-label="Tutup">×</button></div><p>Halaman ini adalah prototipe. Konten video, pembayaran, dan akun peserta dapat ditambahkan saat backend sudah tersedia.</p><button class="btn btn-dark btn-wide" data-close-modal="courseModal">Mengerti</button></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const products = [
+      { id: 1, name: 'Smart Blood Pressure Monitor', category: 'kesehatan', categoryLabel: 'Alat kesehatan', price: 389000, oldPrice: 459000, rating: '4.9', reviews: 124, emoji: '🩺', visual: 'visual-green', badge: 'Bestseller', popularity: 1 },
+      { id: 2, name: 'Digital Thermometer', category: 'kesehatan', categoryLabel: 'Alat kesehatan', price: 79000, oldPrice: 99000, rating: '4.8', reviews: 86, emoji: '🌡️', visual: 'visual-blue', badge: 'Pilihan', popularity: 5 },
+      { id: 3, name: 'Daily Wellness Multivitamin', category: 'suplemen', categoryLabel: 'Suplemen', price: 149000, oldPrice: 179000, rating: '4.8', reviews: 208, emoji: '🧴', visual: 'visual-peach', badge: 'Favorit', popularity: 2 },
+      { id: 4, name: 'Protein Shaker Bottle', category: 'olahraga', categoryLabel: 'Alat olahraga', price: 59000, oldPrice: null, rating: '4.7', reviews: 73, emoji: '🥤', visual: 'visual-lilac', badge: 'Everyday', popularity: 8 },
+      { id: 5, name: 'Resistance Band Set', category: 'olahraga', categoryLabel: 'Alat olahraga', price: 99000, oldPrice: 129000, rating: '4.9', reviews: 156, emoji: '🪢', visual: 'visual-yellow', badge: 'Bestseller', popularity: 3 },
+      { id: 6, name: 'Adjustable Dumbbell Pair', category: 'olahraga', categoryLabel: 'Alat olahraga', price: 499000, oldPrice: 579000, rating: '4.8', reviews: 92, emoji: '🏋️', visual: 'visual-blue', badge: 'Top rated', popularity: 4 },
+      { id: 7, name: 'Home Workout Starter Course', category: 'course', categoryLabel: 'Course fitness', price: 129000, oldPrice: 199000, rating: '4.9', reviews: 61, emoji: '🎓', visual: 'visual-green', badge: 'Digital', popularity: 6 },
+      { id: 8, name: 'Healthy Habits Mini Course', category: 'course', categoryLabel: 'Course fitness', price: 89000, oldPrice: null, rating: '4.8', reviews: 43, emoji: '🌱', visual: 'visual-peach', badge: 'Digital', popularity: 7 }
+    ];
+    const rupiah = value => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value).replace(/\u00a0/g, ' ');
+    const productGrid = document.getElementById('productGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const cart = new Map();
+    const overlay = document.getElementById('overlay');
+    const cartDrawer = document.getElementById('cartDrawer');
+    let toastTimer;
+
+    function renderProducts() {
+      const query = searchInput.value.trim().toLowerCase();
+      const category = categoryFilter.value;
+      let filtered = products.filter(p => (category === 'all' || p.category === category) && (p.name.toLowerCase().includes(query) || p.categoryLabel.toLowerCase().includes(query)));
+      if (sortFilter.value === 'low') filtered.sort((a,b) => a.price - b.price);
+      else if (sortFilter.value === 'high') filtered.sort((a,b) => b.price - a.price);
+      else filtered.sort((a,b) => a.popularity - b.popularity);
+      productGrid.innerHTML = '';
+      if (!filtered.length) {
+        productGrid.innerHTML = '<div class="empty-state" style="display:block">Produk tidak ditemukan. Coba kata kunci atau kategori lain, ya.</div>';
+        return;
+      }
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        card.innerHTML = `<div class="product-visual ${p.visual}"><span class="product-badge">${p.badge}</span><button class="wish-btn" aria-label="Simpan ${p.name}" data-wish="${p.id}">♡</button><span class="emoji" aria-hidden="true">${p.emoji}</span></div><div class="product-info"><div class="product-type">${p.categoryLabel}</div><h3>${p.name}</h3><div class="rating">★ ★ ★ ★ ★ <span>${p.rating} (${p.reviews})</span></div><div class="product-bottom"><div><span class="price">${rupiah(p.price)}</span>${p.oldPrice ? `<span class="old-price">${rupiah(p.oldPrice)}</span>` : ''}</div><button class="add-btn" aria-label="Tambah ${p.name} ke keranjang" data-add="${p.id}">+</button></div></div>`;
+        productGrid.appendChild(card);
+      });
+    }
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    function addToCart(id) {
+      cart.set(id, (cart.get(id) || 0) + 1);
+      renderCart();
+      const p = products.find(x => x.id === id);
+      showToast(`${p.name} ditambahkan ke keranjang`);
+    }
+    function renderCart() {
+      const list = document.getElementById('cartItems');
+      const count = [...cart.values()].reduce((a,b) => a+b, 0);
+      document.getElementById('cartCount').textContent = count;
+      document.getElementById('drawerItemCount').textContent = `(${count})`;
+      if (cart.size === 0) {
+        list.innerHTML = '<div class="cart-empty"><div style="font-size:40px;margin-bottom:14px">🛍️</div>Keranjangmu masih kosong.<br>Yuk, temukan kebutuhan wellness-mu.</div>';
+      } else {
+        list.innerHTML = '';
+        cart.forEach((qty,id) => {
+          const p = products.find(x => x.id === id);
+          const row = document.createElement('div');
+          row.className = 'cart-row';
+          row.innerHTML = `<div class="cart-thumb">${p.emoji}</div><div><strong>${p.name}</strong><small>${rupiah(p.price)}</small><div class="qty-controls"><button data-qty="${id}" data-delta="-1" aria-label="Kurangi jumlah">−</button><span>${qty}</span><button data-qty="${id}" data-delta="1" aria-label="Tambah jumlah">+</button></div></div><div style="text-align:right"><strong style="font-size:11px">${rupiah(p.price*qty)}</strong><button class="remove" data-remove="${id}">Hapus</button></div>`;
+          list.appendChild(row);
+        });
+      }
+      const subtotal = [...cart.entries()].reduce((sum,[id,qty]) => sum + products.find(p => p.id === id).price*qty, 0);
+      document.getElementById('subtotal').textContent = rupiah(subtotal);
+      document.getElementById('total').textContent = rupiah(subtotal);
+      document.getElementById('checkoutTotal').textContent = rupiah(subtotal);
+      document.getElementById('shipping').textContent = subtotal >= 250000 ? 'Gratis' : 'Dihitung saat checkout';
+      document.getElementById('total').textContent = rupiah(subtotal);
+    }
+    function openCart() {
+      overlay.classList.add('show'); cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      overlay.classList.remove('show'); cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); document.body.style.overflow = '';
+    }
+    function openModal(id) { closeCart(); document.getElementById(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
+    function closeModal(id) { document.getElementById(id).classList.remove('show'); document.body.style.overflow = ''; }
+
+    productGrid.addEventListener('click', e => {
+      const add = e.target.closest('[data-add]');
+      const wish = e.target.closest('[data-wish]');
+      if (add) addToCart(Number(add.dataset.add));
+      if (wish) { wish.classList.toggle('saved'); wish.textContent = wish.classList.contains('saved') ? '♥' : '♡'; showToast(wish.classList.contains('saved') ? 'Disimpan ke favorit demo' : 'Dihapus dari favorit demo'); }
+    });
+    searchInput.addEventListener('input', renderProducts);
+    categoryFilter.addEventListener('change', () => { document.querySelectorAll('.category-card').forEach(c => c.classList.toggle('active', c.dataset.category === categoryFilter.value)); renderProducts(); });
+    sortFilter.addEventListener('change', renderProducts);
+    document.querySelectorAll('.category-card').forEach(button => button.addEventListener('click', () => {
+      if (button.dataset.category === 'coach') { openModal('coachModal'); return; }
+      if (button.dataset.category === 'all') categoryFilter.value = 'all';
+      else categoryFilter.value = button.dataset.category;
+      document.querySelectorAll('.category-card').forEach(c => c.classList.toggle('active', c === button));
+      renderProducts(); document.getElementById('produk').scrollIntoView({ behavior: 'smooth' });
+    }));
+    document.getElementById('searchFocus').addEventListener('click', () => { document.getElementById('produk').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => searchInput.focus(), 350); });
+    document.getElementById('openCart').addEventListener('click', openCart);
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    overlay.addEventListener('click', closeCart);
+    document.getElementById('cartItems').addEventListener('click', e => {
+      const qty = e.target.closest('[data-qty]'); const remove = e.target.closest('[data-remove]');
+      if (qty) { const id = Number(qty.dataset.qty); const next = (cart.get(id)||0) + Number(qty.dataset.delta); if (next <= 0) cart.delete(id); else cart.set(id,next); renderCart(); }
+      if (remove) { cart.delete(Number(remove.dataset.remove)); renderCart(); showToast('Produk dihapus dari keranjang'); }
+    });
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (!cart.size) { showToast('Keranjang masih kosong. Tambahkan produk dulu, ya.'); return; }
+      openModal('checkoutModal');
+    });
+    document.getElementById('checkoutForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const orderId = 'FW-' + Math.random().toString(36).slice(2,8).toUpperCase();
+      const form = e.currentTarget;
+      closeModal('checkoutModal'); closeCart(); cart.clear(); renderCart(); form.reset();
+      showToast(`Pesanan demo ${orderId} berhasil dibuat — tidak ada pembayaran nyata.`);
+    });
+    document.getElementById('openCoach').addEventListener('click', () => openModal('coachModal'));
+    document.getElementById('coachForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(e.currentTarget);
+      const goal = data.get('goal'), level = data.get('level'), time = Number(data.get('time'));
+      const equip = data.get('equipment').trim();
+      const goals = {
+        aktif: ['Membangun kebiasaan aktif', 'jalan santai 5–10 menit, mobilitas ringan, dan jeda berdiri saat terlalu lama duduk'],
+        strength: ['Mengenal latihan kekuatan', 'latihan dasar seperti squat ke kursi, wall push-up, dan glute bridge sesuai kemampuan'],
+        stamina: ['Meningkatkan stamina secara bertahap', 'jalan santai dengan tempo nyaman dan jeda istirahat sesuai kebutuhan'],
+        flexibility: ['Mendukung mobilitas dan fleksibilitas', 'gerakan mobilitas lembut untuk bahu, pinggul, pergelangan kaki, dan punggung']
+      };
+      const [headline, activity] = goals[goal];
+      const duration = time === 10 ? '10–15 menit' : time === 20 ? '20–30 menit' : '30–40 menit';
+      const intensity = level === 'beginner' ? 'Mulai dengan intensitas ringan dan fokus pada teknik yang nyaman.' : level === 'some' ? 'Pilih intensitas ringan hingga sedang sesuai kondisi hari ini.' : 'Atur intensitas sesuai pemulihan; sisipkan hari istirahat.';
+      const equipmentLine = equip ? `Peralatan yang kamu sebutkan: ${equip}. Gunakan hanya jika sesuai petunjuk dan aman.` : 'Belum ada peralatan khusus yang disebutkan; pilih opsi tanpa alat terlebih dahulu.';
+      const plan = `🌱 Fokus: ${headline}\n\nContoh sesi (${duration}):\n1. Pemanasan ringan 2–5 menit.\n2. Coba ${activity}.\n3. Akhiri dengan gerakan ringan dan evaluasi kenyamanan tubuh.\n\n${intensity}\n${equipmentLine}\n\nTarget awal: lakukan secara konsisten 2–3 kali per minggu bila terasa nyaman, lalu evaluasi perlahan. Ini contoh umum, bukan program medis atau pengganti pelatih profesional.`;
+      const answer = document.getElementById('coachAnswer'); answer.textContent = plan; answer.style.display = 'block'; answer.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+    document.querySelectorAll('[data-close-modal]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.closeModal)));
+    document.querySelectorAll('.modal-wrap').forEach(modal => modal.addEventListener('click', e => { if(e.target === modal) closeModal(modal.id); }));
+    document.querySelectorAll('[data-course]').forEach(button => button.addEventListener('click', () => {
+      document.getElementById('courseTitle').textContent = button.dataset.course;
+      document.getElementById('courseDescription').textContent = `Kelas pengantar “${button.dataset.course}” dirancang sebagai contoh course digital untuk pemula.`;
+      openModal('courseModal');
+    }));
+    document.getElementById('newsletterForm').addEventListener('submit', e => { e.preventDefault(); e.currentTarget.reset(); showToast('Terima kasih! Pendaftaran newsletter ini masih demo.'); });
+    document.getElementById('menuToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+    document.querySelectorAll('#navLinks a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') { closeCart(); document.querySelectorAll('.modal-wrap.show').forEach(m => closeModal(m.id)); } });
+    renderProducts(); renderCart();
+  </script>
+</body>
+</html>
